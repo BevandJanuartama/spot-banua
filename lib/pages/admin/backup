@@ -1,0 +1,267 @@
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+class HomePage extends StatelessWidget {
+  final List<String> headerImages = [
+    '../assets/images/effect/taman.png',
+    '../assets/images/effect/monyet.png',
+    '../assets/images/effect/amanah.png',
+  ];
+
+  final List<String> eventImages = [
+    'assets/images/event/1.png',
+    'assets/images/event/2.png',
+    'assets/images/event/3.png',
+  ];
+
+  final List<Map<String, dynamic>> recommendations = [
+    {
+      'image': 'assets/images/wisata/Tahura.jpeg',
+      'title': 'Tahura Banjarbaru',
+      'rating': 4.9,
+    },
+    {
+      'image': '../assets/images/wisata/kiram.jpeg',
+      'title': 'Kiram Banjarbaru',
+      'rating': 4.9,
+    },
+    {
+      'image': 'assets/images/wisata/Taman_Vanderpilj.jpg',
+      'title': 'Taman Van Der Pijl',
+      'rating': 4.9,
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ''),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+      ),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            // Slideshow Header
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 243,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 2),
+                enlargeCenterPage:
+                    false, // <- ubah jadi false biar nggak kasih margin
+                viewportFraction: 1.0, // <- biar slide penuh 1 layar
+              ),
+              items:
+                  headerImages.map((imagePath) {
+                    return Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      width:
+                          MediaQuery.of(
+                            context,
+                          ).size.width, // <- Ambil lebar layar
+                    );
+                  }).toList(),
+            ),
+
+            // White Box Section
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Lokasi dan profil
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.location_on, color: Colors.deepPurple),
+                          SizedBox(width: 5),
+                          Text(
+                            'Karang Anyar 3, Banjarbaru',
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundImage: AssetImage(
+                          '../assets/images/profile.jpg',
+                        ), // Ganti sesuai path kamu
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    'Discover\nWorld With Us',
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    'Upcoming Event',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+
+                  SizedBox(
+                    height: 180,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: eventImages.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              eventImages[index],
+                              width: 300,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Background abu untuk bagian rekomendasi
+            Container(
+              color: const Color(0xFFD9D9D9),
+              padding: const EdgeInsets.only(top: 10, bottom: 30),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Top Recommended',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text('View All', style: TextStyle(color: Colors.grey)),
+                      ],
+                    ),
+                  ),
+                  ...recommendations.map((rec) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 6,
+                      ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              rec['image'],
+                              height: 160,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.amber,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    size: 14,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${rec['rating']}',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 20,
+                            left: 20,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Top Recommended',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  rec['title'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 20,
+                            right: 20,
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.7),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

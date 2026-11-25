@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "849382498988",
+    "project_id": "spotbanua",
+    "storage_bucket": "spotbanua.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849382498988:android:0b3eedf60bf661c2a7f509",
+        "android_client_info": {
+          "package_name": "com.example.spotbanua"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArQ9-7ZdFDmR-txxY4zLLChxZ4-Yy-qHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
